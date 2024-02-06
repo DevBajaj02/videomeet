@@ -15,6 +15,16 @@ const SocketHandler=(req,res)=>{
                 // broadcast the message to other users in the room that a user connected
                 socket.broadcast.to(roomId).emit('user-connected',userId)
             })
+
+            socket.on('user-toggle-audio', (userId, roomId)=>{
+                socket.join(roomId)
+                socket.broadcast.to(roomId).emit('user-connected',userId)
+            })
+
+            socket.on('user-toggle-video', (userId, roomId)=>{
+                socket.join(roomId)
+                socket.broadcast.to(roomId).emit('user-connected',userId)
+            })
         })
     }
     res.end();

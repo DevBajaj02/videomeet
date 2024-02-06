@@ -4,11 +4,13 @@ import usePeer from "@/hooks/usePeer";
 import useMediaStream from "@/hooks/useMediaStream";
 import Player from "@/component/Player"
 import usePlayer from "@/hooks/usePlayer";
+import { useRouter } from "next/router";
 const Room = () => {
     const socket = useSocket();
+    const {roomId} = useRouter().query;
     const { peer, myId } = usePeer();
     const { stream } = useMediaStream();
-    const {players, setPlayers, playerHighlighted, nonHighlighted} = usePlayer(myId);
+    const {players, setPlayers, playerHighlighted, nonHighlighted} = usePlayer(myId, roomId);
     useEffect(()=>{
         if(!socket || !peer || !stream) return;
         const handleUserConnected =(newUser)=>{
