@@ -8,7 +8,7 @@ const Room = () => {
     const socket = useSocket();
     const { peer, myId } = usePeer();
     const { stream } = useMediaStream();
-    const {players, setPlayers} = usePlayer();
+    const {players, setPlayers, playerHighlighted, nonHighlighted} = usePlayer(myId);
     useEffect(()=>{
         if(!socket || !peer || !stream) return;
         const handleUserConnected =(newUser)=>{
@@ -65,13 +65,20 @@ const Room = () => {
         }))
     },[myId, setPlayers, stream])
     return(
-        <div>
-            {Object.keys(players).map((playerId)=>{
-                const {url, muted, playing}=players[playerId]
-                return <Player key={playerId} url={url} muted={muted} playing={playing} playerId={myId} />
-            })}
+        <>
+            <div className="absolute w-9/12 left-0 right-0 mx-auto top-20 bottom-50px h-calc(100vh - 20px - 100px)">
+                {playerHighlighted && (<Player url={playerHighlighted.url} muted={playerHighlighted.muted} playing={playerHighlighted.playing} playerId={myId} isActive/>)}
+            </div>
+
+            <div className="absolute flex flex-col overflow-y-auto w-200px h-calc(100vh - 20px) right-20 top-20">
+                {Object.keys(nonHighlighted).map((playerId) => {
+                    const { url, muted, playing } = nonHighlighted[playerId];
+                    return <Player key={playerId} url={url} muted={muted} playing={playing} playerId={myId} isActive={false} />;
+                })}
+            </div>
+
             
-        </div>
+        </>
     )
 
 
