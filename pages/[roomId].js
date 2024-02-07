@@ -2,7 +2,8 @@ import { useSocket } from "@/context/socket"
 import { useEffect } from "react";
 import usePeer from "@/hooks/usePeer";
 import useMediaStream from "@/hooks/useMediaStream";
-import Player from "@/component/Player"
+import Player from "@/component/Player";
+import Bottom from "@/component/Bottom";
 import usePlayer from "@/hooks/usePlayer";
 import { useRouter } from "next/router";
 const Room = () => {
@@ -10,7 +11,7 @@ const Room = () => {
     const {roomId} = useRouter().query;
     const { peer, myId } = usePeer();
     const { stream } = useMediaStream();
-    const {players, setPlayers, playerHighlighted, nonHighlighted} = usePlayer(myId, roomId);
+    const {players, setPlayers, playerHighlighted, nonHighlighted, toggleAudio, toggleVideo} = usePlayer(myId, roomId);
     useEffect(()=>{
         if(!socket || !peer || !stream) return;
         const handleUserConnected =(newUser)=>{
@@ -79,7 +80,7 @@ const Room = () => {
                 })}
             </div>
 
-            
+            <Bottom muted={playerHighlighted?.muted} playing={playerHighlighted?.playing} toggleAudio={toggleAudio} toggleVideo={toggleVideo}/>
         </>
     )
 
