@@ -7,6 +7,7 @@ import Bottom from "@/component/Bottom";
 import usePlayer from "@/hooks/usePlayer";
 import { useRouter } from "next/router";
 import { clone, cloneDeep } from "lodash";
+import CopySection from "@/component/CopySection";
 const Room = () => {
     const socket = useSocket();
     const {roomId} = useRouter().query;
@@ -134,7 +135,9 @@ const Room = () => {
                 })}
             </div>
 
+            <CopySection roomId={roomId}/>
             <Bottom muted={playerHighlighted?.muted} playing={playerHighlighted?.playing} toggleAudio={toggleAudio} toggleVideo={toggleVideo} leaveRoom={leaveRoom}/>
+
         </>
     )
 
