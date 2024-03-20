@@ -86,6 +86,7 @@ const Room = () => {
             socket.off('user-leave',handleUserLeave)
         }
     },[socket, setPlayers])
+    
     useEffect(()=>{
         if(!peer || !stream) return;
         peer.on('call',(call)=>{
